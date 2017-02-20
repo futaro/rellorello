@@ -1,6 +1,5 @@
 <template>
     <div id="application">
-        <!--<add-card-form v-on:add-new-task="onAddNewTask"></add-card-form>-->
         <div id="status-container">
             <status v-for="status in statuses"
                     v-bind:status="status"
@@ -13,8 +12,6 @@
 <script>
 
     import Status from 'components/Status.vue'
-    import AddCardForm from 'components/AddCardForm.vue'
-
     import TaskModel from 'models/TaskModel'
     import StatusModel from 'models/StatusModel'
 
@@ -78,8 +75,7 @@
         },
 
         components: {
-            Status,
-            AddCardForm
+            Status
         }
 
     }
