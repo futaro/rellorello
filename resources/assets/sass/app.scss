@@ -1,0 +1,100 @@
+@import "reset";
+@import "variables";
+
+input, textarea {
+  padding: 3px;
+  font-weight: normal;
+  border: 1px solid $gray;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  border-radius: 0;
+  background-color: $gray;
+  padding: 4px 10px;
+  font-size: 90%;
+  color: white;
+  &.primary {
+    background-color: $primary;
+  }
+}
+
+body {
+  background-color: #e8f2f4;
+}
+
+#application {
+
+  padding: 5px;
+
+  #card-form {
+
+    input {
+      display: block;
+      width: 100%;
+    }
+
+    margin-bottom: 10px;
+  }
+
+  #status-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .status {
+
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    margin-right: 20px;
+
+    .status_subject {
+      background-color: #2e6da4;
+      color: $white;
+      font-weight: bold;
+      text-align: center;
+      padding: 5px;
+    }
+
+    .task {
+      display: block;
+      padding: 5px;
+      margin-top: 5px;
+      background-color: $white;
+      .subject {
+
+      }
+      .info {
+        font-size: 80%;
+        color: $gray;
+        text-align: right;
+        font-style: italic;
+      }
+    }
+    .new-form {
+      .add_btn {
+        color: $gray;
+        cursor: pointer;
+        display: block;
+        text-align: center;
+        &:hover {
+          color: #ff477c;
+        }
+      }
+      textarea {
+        width: 100%;
+        resize: vertical;
+        border: none;
+      }
+      .new_task_form {
+        text-align: right;
+      }
+    }
+  }
+}
