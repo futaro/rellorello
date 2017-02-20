@@ -3,7 +3,9 @@
 ```bash
 $ composer install
 $ cp .env.sample .env
+$ php artisan key:generate
 $ npm install
+$ touch database/database.sqlite
 $ php artisan migrate:refresh --seed
 ```
 
