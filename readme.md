@@ -2,6 +2,7 @@
 
 ```bash
 $ composer install
+$ cp .env.sample .env
 $ npm install
 $ php artisan migrate:refresh --seed
 ```
