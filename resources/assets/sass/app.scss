@@ -1,5 +1,6 @@
 @import "reset";
 @import "variables";
+@import "mixin";
 
 input, textarea {
   padding: 3px;
@@ -53,6 +54,10 @@ body {
     max-width: 300px;
     min-width: 300px;
     margin-right: 20px;
+    background: #a0b8bc;
+    padding: 10px;
+    height: 100%;
+    border-radius: 8px;
 
     .status_subject {
       background-color: #2e6da4;
@@ -60,6 +65,7 @@ body {
       font-weight: bold;
       text-align: center;
       padding: 5px;
+      @include shadow-box;
     }
 
     .task {
@@ -67,6 +73,8 @@ body {
       padding: 5px;
       margin-top: 5px;
       background-color: $white;
+      @include shadow-box;
+      color: $content-color;
       .subject {
 
       }
