@@ -48,7 +48,8 @@
                 this.$emit('add-new-task', {
                     subject: this.new_task_subject,
                     status_id: this.status_id
-                })
+                });
+                this.new_task_subject = '';
                 this.display_form_flag = false
             },
             onKeyDown: function (e) {
@@ -57,6 +58,8 @@
                     this.onClickSubmit()
                 } else if (e.metaKey && e.code == 'Enter') {
                     this.onClickSubmit()
+                } else if (e.code == 'Escape') {
+                    this.onClickCancel()
                 }
 
 //                if (e.code == 'Enter') {
