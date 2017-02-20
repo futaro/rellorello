@@ -12,11 +12,11 @@
 
 <script>
 
-    import Status from './Status.vue'
-    import AddCardForm from './AddCardForm.vue'
+    import Status from 'components/Status.vue'
+    import AddCardForm from 'components/AddCardForm.vue'
 
-    import TaskModel from '../models/TaskModel'
-    import StatusModel from '../models/StatusModel'
+    import TaskModel from 'models/TaskModel'
+    import StatusModel from 'models/StatusModel'
 
     import moment from 'moment'
 
