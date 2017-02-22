@@ -3,17 +3,27 @@
         <div id="status-container">
             <status v-for="status in statuses"
                     v-bind:status="status"
-                    v-on:add-new-task="onAddNewTask">
+                    v-on:add-new-task="onAddNewTask"
+                    v-on:task-modal-open="onTaskModalOpen"
+            >
             </status>
         </div>
+        <task-modal
+                v-bind:modal_open_flag='modal_open_flag'
+                v-bind:task='task'
+                v-on:add-update-task="onUpdateTask"
+                v-on:task-modal-close="onTaskModalClose"
+        ></task-modal>
     </div>
 </template>
 
 <script>
 
+
     import Status from 'components/Status.vue'
     import TaskModel from 'models/TaskModel'
     import StatusModel from 'models/StatusModel'
+    import TaskModal from 'components/TaskModal.vue'
 
     import moment from 'moment'
 
@@ -21,7 +31,9 @@
 
         data() {
             return {
-                statuses: []
+                statuses: [],
+                modal_open_flag: false,
+                task: {}
             }
         },
 
@@ -39,6 +51,13 @@
         },
 
         methods: {
+            onTaskModalOpen: function (task) {
+                this.task = task
+                this.modal_open_flag = true
+            },
+            onTaskModalClose: function () {
+                this.modal_open_flag = false
+            },
             onAddNewTask: function (new_task) {
 
                 let task = new TaskModel({
@@ -71,11 +90,15 @@
                         console.log(error)
                     }
                 )
+            },
+            onUpdateTask: function (task) {
+                console.log(task);
             }
         },
 
         components: {
-            Status
+            Status,
+            TaskModal
         }
 
     }

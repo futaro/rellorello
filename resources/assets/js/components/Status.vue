@@ -4,6 +4,7 @@
         <task v-for="(task, index) in status.tasks"
               v-bind:task="task"
               v-bind:index="index"
+              v-on:task-modal="onTaskModal"
               draggable="true">
         </task>
         <new-task-form v-bind:status_id="status.id"
@@ -35,6 +36,9 @@
         methods: {
             onAddNewTask: function (obj) {
                 this.$emit('add-new-task', obj)
+            },
+            onTaskModal: function (obj) {
+                this.$emit('task-modal-open', obj);
             }
         }
 

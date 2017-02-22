@@ -9,6 +9,7 @@ export default class TaskModel extends AbstractModel {
         this.resource_url = '/tasks'
 
         this.props = {
+            id: null,
             subject: null,
             description: null,
             created_user_id: null,
@@ -27,6 +28,13 @@ export default class TaskModel extends AbstractModel {
         return this.props.created_at.fromNow(true)
     }
 
+    set id(value) {
+        this._set('id', value)
+    }
+
+    get id() {
+        return this._get('id')
+    }
 
     set subject(value) {
         this._set('subject', value)
