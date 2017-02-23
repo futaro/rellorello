@@ -2,7 +2,7 @@ machine:
   timezone:
     Asia/Tokyo
   php:
-    version: 7.0.1
+    version: 7.0.4
   hosts:
     app.test: 127.0.0.1
 dependencies:
