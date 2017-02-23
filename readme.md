@@ -1,6 +1,6 @@
 [![Code Climate](https://codeclimate.com/github/futaro/rellorello/badges/gpa.svg)](https://codeclimate.com/github/futaro/rellorello)
 [![Issue Count](https://codeclimate.com/github/futaro/rellorello/badges/issue_count.svg)](https://codeclimate.com/github/futaro/rellorello)
-
+[![CircleCI](https://circleci.com/gh/futaro/rellorello.svg?style=svg)](https://circleci.com/gh/futaro/rellorello)
 
 ## install
 
@@ -23,4 +23,3 @@ $ php artisan serve
 $ npm run watch
 ```
 
-[![CircleCI](https://circleci.com/gh/futaro/rellorello.svg?style=svg)](https://circleci.com/gh/futaro/rellorello)
