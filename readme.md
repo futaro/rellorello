@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/github/futaro/rellorello/badges/gpa.svg)](https://codeclimate.com/github/futaro/rellorello)
+[![Issue Count](https://codeclimate.com/github/futaro/rellorello/badges/issue_count.svg)](https://codeclimate.com/github/futaro/rellorello)
+
+
 ## install
 
 ```bash
