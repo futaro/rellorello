@@ -29,6 +29,7 @@ body {
   background-color: $background-color;
 }
 
+
 #application {
 
   padding: 5px;
@@ -152,6 +153,18 @@ body {
       bottom: 0;
       right: 0;
       padding: 10px;
+    }
+
+    .btn-delete {
+      color: $danger-color;
+      background: $danger-background-color;
+      cursor: pointer;
+    }
+
+    .btn-info {
+      color: $info-color;
+      background: $info-background-color;
+      cursor: pointer;
     }
   }
 

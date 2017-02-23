@@ -44,16 +44,13 @@ class TaskController extends Controller
         //
     }
 
+
+
     public function store()
     {
         // validate
         // read more on validation at http://laravel.com/docs/validation
-        $rules = array(
-            'subject' => 'required',
-            'created_user_id' => 'required|numeric',
-            'assignee_user_id' => 'numeric|nullable',
-            'status_id' => 'required'
-        );
+        $rules = $this->getRules();
 
         /** @var \Illuminate\Validation\Validator $validator */
         $validator = Validator::make(Input::all(), $rules);
@@ -66,11 +63,7 @@ class TaskController extends Controller
         } else {
             // store
             $task = new Task();
-            $task->subject = Input::get('subject');
-            $task->description = Input::get('description');
-            $task->created_user_id = Input::get('created_user_id');
-            $task->assignee_user_id = Input::get('assignee_user_id');
-            $task->status_id = Input::get('status_id');
+            $this->setRequestParams($task);
 
             $task_orders = Task::where('status_id', $task->status_id)
                                ->orderBy('order_num', 'DESC')
@@ -101,12 +94,60 @@ class TaskController extends Controller
 
     public function update($id)
     {
-        //
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = $this->getRules();
+
+        /** @var \Illuminate\Validation\Validator $validator */
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return ['status' => false, 'errors' => $validator->messages()->toArray()];
+        } else {
+
+            $task = Task::find($id);
+
+            if (!$task) {
+                return ['status' => false, 'errors' => 'Invalid id'];
+            }
+
+            $this->setRequestParams($task);
+            $task->save();
+
+            return ['status' => true, 'task' => $task];
+        }
     }
 
     public function destroy($id)
     {
-        //
+        Task::destroy($id);
+        return ['status' => true, 'id' => $id];
+    }
+
+    /**
+     * @return array
+     */
+    private function getRules()
+    {
+        return [
+            'subject' => 'required',
+            'created_user_id' => 'required|numeric',
+            'assignee_user_id' => 'numeric|nullable',
+            'status_id' => 'required'
+        ];
+    }
+
+    /**
+     * @param Task $task
+     */
+    private function setRequestParams(Task $task)
+    {
+        $task->subject = Input::get('subject');
+        $task->description = Input::get('description');
+        $task->created_user_id = Input::get('created_user_id');
+        $task->assignee_user_id = Input::get('assignee_user_id');
+        $task->status_id = Input::get('status_id');
     }
 
 }

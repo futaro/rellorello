@@ -7,13 +7,34 @@ export class AbstractModel {
     }
 
     save(success, failed) {
+        (this.props.id !== null) ? this.update(success, failed) : this.insert(success, failed);
+    }
 
-        let api_url = `/api${this.resource_url}`
+    destroy(success, failed) {
+        let api_url = `/api${this.resource_url}/${this.props.id}`;
 
         axios
-            .post(api_url, this.props)
+            .delete(api_url)
             .then(success)
             .catch(failed)
+    }
+
+    insert(success, failed) {
+        let api_url = `/api${this.resource_url}`;
+
+        axios
+          .post(api_url, this.props)
+          .then(success)
+          .catch(failed)
+    }
+
+    update(success, failed) {
+        let api_url = `/api${this.resource_url}`;
+
+        axios
+          .put(`${api_url}/${this.props.id}`, this.props)
+          .then(success)
+          .catch(failed)
     }
 
     static fetch(success, failed, params = {}) {

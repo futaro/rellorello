@@ -22,6 +22,7 @@
             </div>
 
             <div class="footer">
+                <button class="btn-delete" v-on:click="onDelete(task)">DELETE</button>
                 <button class="btn-info" v-on:click="onUpdate(task)">UPDATE</button>
             </div>
     </transition>
@@ -49,7 +50,12 @@
 
             onUpdate: function (task) {
                 this.$emit('add-update-task', task);
-                this.onClose();
+            },
+
+            onDelete: function (task) {
+                if (confirm('Do you want to delete it?')) {
+                    this.$emit('delete-task', task);
+                }
             }
         }
     }

@@ -12,6 +12,7 @@
                 v-bind:modal_open_flag='modal_open_flag'
                 v-bind:task='task'
                 v-on:add-update-task="onUpdateTask"
+                v-on:delete-task="onDeleteTask"
                 v-on:task-modal-close="onTaskModalClose"
         ></task-modal>
     </div>
@@ -52,7 +53,7 @@
 
         methods: {
             onTaskModalOpen: function (task) {
-                this.task = task
+                this.task = new TaskModel(task.props);
                 this.modal_open_flag = true
             },
             onTaskModalClose: function () {
@@ -92,7 +93,66 @@
                 )
             },
             onUpdateTask: function (task) {
-                console.log(task);
+                let me = this;
+
+                task.save(
+                        (response) => {
+                            if (response.data.status) {
+
+                                let statuses = me.statuses.find((status) => {
+                                    return status.id == task.status_id;
+                                });
+
+                                if (statuses === undefined) {
+                                    return;
+                                }
+
+                                statuses.tasks.map((item, index) => {
+                                    if (item.id == response.data.task.id) {
+                                        statuses.tasks.splice(index, 1, new TaskModel(response.data.task));
+                                    }
+                                });
+
+                                me.onTaskModalClose();
+                            } else {
+                                console.log(response.data.errors)
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                )
+            },
+            onDeleteTask: function (delete_task) {
+                let me = this;
+
+                delete_task.destroy(
+                        (response) => {
+                            if (response.data.status) {
+                                let statuses = me.statuses.find((status) => {
+                                    return status.id == delete_task.status_id;
+                                });
+
+                                if (statuses === undefined) {
+                                    return;
+                                }
+
+                                statuses.tasks.map((task, index) => {
+                                    if (task.id == delete_task.id) {
+                                        statuses.tasks.splice(index, 1);
+                                    }
+                                });
+
+                                me.onTaskModalClose();
+                            } else {
+                                console.log(response.data.errors)
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                )
+
             }
         },
 
