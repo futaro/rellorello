@@ -18,3 +18,5 @@ $ php artisan serve
 ```bash
 $ npm run watch
 ```
+
+[![CircleCI](https://circleci.com/gh/futaro/rellorello.svg?style=svg)](https://circleci.com/gh/futaro/rellorello)
