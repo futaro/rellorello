@@ -20,6 +20,7 @@ export default class StatusModel extends AbstractModel {
             updated_at: null
         }
         this._setProperties(obj)
+
     }
 
     addTask(task) {

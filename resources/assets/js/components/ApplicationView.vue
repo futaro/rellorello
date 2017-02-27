@@ -5,8 +5,13 @@
                     v-bind:status="status"
                     v-on:add-new-task="onAddNewTask"
                     v-on:task-modal-open="onTaskModalOpen"
+                    v-on:update-status="onUpdateStatus"
+                    v-on:delete-status="onDeleteStatus"
             >
             </status>
+            <new-status
+                    v-on:add-new-status="onAddNewStatus"
+            ></new-status>
         </div>
         <task-modal
                 v-bind:modal_open_flag='modal_open_flag'
@@ -22,9 +27,11 @@
 
 
     import Status from 'components/Status.vue'
+    import TaskModal from 'components/TaskModal.vue'
+    import NewStatus from 'components/NewStatus.vue'
     import TaskModel from 'models/TaskModel'
     import StatusModel from 'models/StatusModel'
-    import TaskModal from 'components/TaskModal.vue'
+
 
     import moment from 'moment'
 
@@ -43,13 +50,13 @@
                 project_id: 1
             }
             StatusModel.fetch(
-                (data) => {
-                    this.statuses = data
-                },
-                (error) => {
-                    console.log(error)
-                },
-                params
+                    (data) => {
+                        this.statuses = data
+                    },
+                    (error) => {
+                        console.log(error)
+                    },
+                    params
             )
         },
 
@@ -60,6 +67,64 @@
             },
             onTaskModalClose: function () {
                 this.modal_open_flag = false
+            },
+            onAddNewStatus: function (new_status) {
+                let status = new StatusModel(new_status);
+
+                status.save(
+                        (response) => {
+                            if (response.data.status) {
+                                location.reload();
+                            } else {
+                                console.log(response.data.errors)
+                            }
+
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                )
+
+            },
+            onUpdateStatus: function (status) {
+                let me = this;
+
+                status.save(
+                        (response) => {
+                            if (response.data.status) {
+                                me.statuses.map((item) => {
+                                    if (item.id == status.id) {
+                                        item.subject = response.data.model.subject;
+                                    }
+                                });
+                            } else {
+                                console.log(response.data.errors)
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                )
+            },
+            onDeleteStatus: function (status) {
+                let me = this;
+
+                status.destroy(
+                        (response) => {
+                            if (response.data.status) {
+                                me.statuses.map((item, index) => {
+                                    if (item.id == status.id) {
+                                        me.statuses.splice(index, 1);
+                                    }
+                                });
+                            } else {
+                                console.log(response.data.errors)
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                )
             },
             onAddNewTask: function (new_task) {
 
@@ -72,26 +137,26 @@
                 })
 
                 task.save(
-                    (response) => {
+                        (response) => {
 
-                        if (response.data.status) {
+                            if (response.data.status) {
 
-                            let task = response.data.task
+                                let task = response.data.task
 
-                            this.statuses.map((status, index) => {
-                                if (status.id == task.status_id) {
-                                    status.addTask(new TaskModel(task))
-                                }
-                            })
+                                this.statuses.map((status, index) => {
+                                    if (status.id == task.status_id) {
+                                        status.addTask(new TaskModel(task))
+                                    }
+                                })
 
-                        } else {
-                            console.log(response.data.errors)
+                            } else {
+                                console.log(response.data.errors)
+                            }
+
+                        },
+                        (error) => {
+                            console.log(error)
                         }
-
-                    },
-                    (error) => {
-                        console.log(error)
-                    }
                 )
             },
             onUpdateTask: function (task) {
@@ -160,7 +225,8 @@
 
         components: {
             Status,
-            TaskModal
+            TaskModal,
+            NewStatus
         }
 
     }
