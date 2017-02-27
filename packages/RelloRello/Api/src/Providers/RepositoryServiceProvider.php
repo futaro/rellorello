@@ -12,11 +12,12 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     private $repositories = [
-        ServiceInterface\FetchTasksServiceInterface::class => Services\FetchTasksService::class,
         Repositories\TaskRepository::class => Eloquent\EloquentTaskRepository::class,
+        ServiceInterface\FetchTasksServiceInterface::class => Services\FetchTasksService::class,
+        ServiceInterface\ManipulateTaskServiceInterface::class => Services\ManipulateTaskService::class,
 
+        Repositories\StatusRepository::class => Eloquent\EloquentStatusRepository::class,
         ServiceInterface\FetchStatusesServiceInterface::class => Services\FetchStatusesService::class,
-        Repositories\StatusRepository::class => Eloquent\EloquentStatusRepository::class
     ];
 
     /**

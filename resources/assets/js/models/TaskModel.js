@@ -1,4 +1,5 @@
 import {AbstractModel} from './AbstractModel'
+import moment from 'moment'
 
 export default class TaskModel extends AbstractModel {
 
@@ -15,8 +16,7 @@ export default class TaskModel extends AbstractModel {
             created_user_id: null,
             assignee_user_id: null,
             status_id: null,
-            created_at: null,
-            updated_at: null
+            created: null
         }
         this._setProperties(obj)
 
@@ -25,7 +25,7 @@ export default class TaskModel extends AbstractModel {
     // getter / setter
 
     get created_at_display() {
-        return this.props.created_at.fromNow(true)
+        return this.props.created.fromNow(true)
     }
 
     set id(value) {
@@ -76,5 +76,12 @@ export default class TaskModel extends AbstractModel {
         return this._get('status_id')
     }
 
+    set created(value) {
+        this._set('created', moment(value))
+    }
+
+    get created() {
+        return this._get('created')
+    }
 }
 

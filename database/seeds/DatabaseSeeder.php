@@ -56,56 +56,64 @@ class DatabaseSeeder extends Seeder
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 1,
-                  'order_num' => 1
+                  'order_num' => 1,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'フガフガ',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 1,
-                  'order_num' => 2
+                  'order_num' => 2,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'ぼへぼへ',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 2,
-                  'order_num' => 1
+                  'order_num' => 1,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'へけけ',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 2,
-                  'order_num' => 2
+                  'order_num' => 2,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'ふごふご',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 2,
-                  'order_num' => 3
+                  'order_num' => 3,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'あばばば',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 2,
-                  'order_num' => 4
+                  'order_num' => 4,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'ふがふが',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 3,
-                  'order_num' => 1
+                  'order_num' => 1,
+                  'created' => '2017-01-01 00:00:00'
               ],
               [
                   'subject' => 'ああああ',
                   'created_user_id' => 1,
                   'assignee_user_id' => 1,
                   'status_id' => 3,
-                  'order_num' => 2
+                  'order_num' => 2,
+                  'created' => '2017-01-01 00:00:00'
               ]
           ]);
     }

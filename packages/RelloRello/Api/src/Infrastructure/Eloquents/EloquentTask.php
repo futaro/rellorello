@@ -2,6 +2,7 @@
 
 namespace RelloRello\Api\Infrastructure\Eloquents;
 
+use Carbon\Carbon;
 use RelloRello\Api\Domain\Models\Status;
 use RelloRello\Api\Domain\Models\Task;
 
@@ -16,6 +17,7 @@ use RelloRello\Api\Domain\Models\Task;
  * @property int assignee_user_id
  * @property int status_id
  * @property int order_num
+ * @property string created
  */
 class EloquentTask extends AppEloquent implements Domainable
 {
@@ -30,7 +32,7 @@ class EloquentTask extends AppEloquent implements Domainable
      * @var array
      */
     protected $fillable = [
-        'subject', 'description', 'created_user_id', 'assignee_user_id', 'status_id', 'order_num'
+        'subject', 'description', 'created_user_id', 'assignee_user_id', 'status_id', 'order_num', 'created'
     ];
 
     public function toDomain(): Task
@@ -42,7 +44,8 @@ class EloquentTask extends AppEloquent implements Domainable
             (int)$this->created_user_id,
             (int)$this->assignee_user_id,
             (int)$this->status_id,
-            (int)$this->order_num
+            (int)$this->order_num,
+            new Carbon($this->created)
         );
     }
 

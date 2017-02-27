@@ -21,6 +21,7 @@ class CreateTaskTable extends Migration
             $table->integer('assignee_user_id')->nullable();
             $table->integer('status_id');
             $table->integer('order_num');
+            $table->dateTime('created');
             $table->timestamps();
         });
     }

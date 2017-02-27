@@ -11,7 +11,7 @@ namespace RelloRello\Api\Domain\Models;
  * @property string subject
  * @property int order_num
  */
-class Status
+class Status extends AbstractModel
 {
     /**
      * @var int

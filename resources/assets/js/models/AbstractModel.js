@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 export class AbstractModel {
 
     constructor() {
@@ -81,22 +79,6 @@ export class AbstractModel {
         } else {
             throw new Error(`undefined property '${prop}'`)
         }
-    }
-
-    set created_at(value) {
-        this._set('created_at', moment(value))
-    }
-
-    get created_at() {
-        return this._get('created_at')
-    }
-
-    set updated_at(value) {
-        this._set('updated_at', moment(value))
-    }
-
-    get updated_at() {
-        return this._get('updated_at')
     }
 }
 

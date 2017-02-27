@@ -2,12 +2,14 @@
 
 namespace RelloRello\Api\Domain\Models;
 
+use Carbon\Carbon;
+
 /**
  * Class Task
  *
  * @package RelloRello\Api\Domain\Models
  */
-class Task
+class Task extends AbstractModel
 {
     /**
      * @var int
@@ -45,6 +47,11 @@ class Task
     private $order_num;
 
     /**
+     * @var Carbon
+     */
+    private $created;
+
+    /**
      * Task constructor.
      *
      * @param int|null $id
@@ -54,6 +61,7 @@ class Task
      * @param int $assignee_user_id
      * @param int $status_id
      * @param int $order_num
+     * @param Carbon $created
      */
     public function __construct(
         int $id = null,
@@ -62,7 +70,8 @@ class Task
         int $created_user_id,
         int $assignee_user_id = null,
         int $status_id,
-        int $order_num
+        int $order_num,
+        Carbon $created = null
     )
     {
         $this->id = $id ?? null;
@@ -72,6 +81,7 @@ class Task
         $this->assignee_user_id = $assignee_user_id ?? null;
         $this->status_id = $status_id;
         $this->order_num = $order_num;
+        $this->created = $created ?? null;
     }
 
     public function getId()
@@ -109,14 +119,8 @@ class Task
         return $this->order_num;
     }
 
-    public function toJson($options = 0)
+    public function getCreated()
     {
-        $json = json_encode($this->jsonSerialize(), $options);
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw JsonEncodingException::forModel($this, json_last_error_msg());
-        }
-
-        return $json;
+        return $this->created;
     }
 }
