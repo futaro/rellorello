@@ -47,6 +47,10 @@ body {
   #status-container {
     display: flex;
     flex-direction: row;
+
+    .add-status {
+      cursor: pointer;
+    }
   }
 
   .status {
@@ -66,7 +70,14 @@ body {
       font-weight: bold;
       text-align: center;
       padding: 5px;
+      cursor: pointer;
       @include shadow-box;
+
+      .close-btn {
+        margin: 5px;
+        background: transparent;
+        cursor: pointer;
+      }
     }
 
     .task {
@@ -154,18 +165,6 @@ body {
       right: 0;
       padding: 10px;
     }
-
-    .btn-delete {
-      color: $danger-color;
-      background: $danger-background-color;
-      cursor: pointer;
-    }
-
-    .btn-info {
-      color: $info-color;
-      background: $info-background-color;
-      cursor: pointer;
-    }
   }
 
   input {
@@ -180,5 +179,21 @@ body {
 
   input:focus {
     border:solid 1px #4364ff;
+  }
+
+  .right-box {
+    text-align: right;
+  }
+
+  .btn-delete {
+    color: $danger-color;
+    background: $danger-background-color;
+    cursor: pointer;
+  }
+
+  .btn-info {
+    color: $info-color;
+    background: $info-background-color;
+    cursor: pointer;
   }
 }
