@@ -1,0 +1,12 @@
+{
+  "name": "rello_rello/api",
+  "license": "MIT",
+  "version": "0.1",
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "RelloRello\\Api\\": "./src"
+    }
+  }
+}

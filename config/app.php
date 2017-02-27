@@ -177,6 +177,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        RelloRello\Api\Providers\RepositoryServiceProvider::class,
+
+        Barryvdh\Debugbar\ServiceProvider::class,
+
     ],
 
     /*

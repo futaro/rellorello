@@ -42,7 +42,7 @@ export class AbstractModel {
         let api_url = `/api${((new this).resource_url)}`
 
         axios
-            .get(api_url, params)
+            .get(api_url, {params:params})
             .then((response) => {
                 if (response.status) {
                     let datas = response.data

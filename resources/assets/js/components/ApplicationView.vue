@@ -39,7 +39,9 @@
         },
 
         mounted() {
-            let params = {}
+            let params = {
+                project_id: 1
+            }
             StatusModel.fetch(
                 (data) => {
                     this.statuses = data
@@ -96,61 +98,61 @@
                 let me = this;
 
                 task.save(
-                        (response) => {
-                            if (response.data.status) {
+                    (response) => {
+                        if (response.data.status) {
 
-                                let statuses = me.statuses.find((status) => {
-                                    return status.id == task.status_id;
-                                });
+                            let statuses = me.statuses.find((status) => {
+                                return status.id == task.status_id;
+                            });
 
-                                if (statuses === undefined) {
-                                    return;
-                                }
-
-                                statuses.tasks.map((item, index) => {
-                                    if (item.id == response.data.task.id) {
-                                        statuses.tasks.splice(index, 1, new TaskModel(response.data.task));
-                                    }
-                                });
-
-                                me.onTaskModalClose();
-                            } else {
-                                console.log(response.data.errors)
+                            if (statuses === undefined) {
+                                return;
                             }
-                        },
-                        (error) => {
-                            console.log(error)
+
+                            statuses.tasks.map((item, index) => {
+                                if (item.id == response.data.task.id) {
+                                    statuses.tasks.splice(index, 1, new TaskModel(response.data.task));
+                                }
+                            });
+
+                            me.onTaskModalClose();
+                        } else {
+                            console.log(response.data.errors)
                         }
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
                 )
             },
             onDeleteTask: function (delete_task) {
                 let me = this;
 
                 delete_task.destroy(
-                        (response) => {
-                            if (response.data.status) {
-                                let statuses = me.statuses.find((status) => {
-                                    return status.id == delete_task.status_id;
-                                });
+                    (response) => {
+                        if (response.data.status) {
+                            let statuses = me.statuses.find((status) => {
+                                return status.id == delete_task.status_id;
+                            });
 
-                                if (statuses === undefined) {
-                                    return;
-                                }
-
-                                statuses.tasks.map((task, index) => {
-                                    if (task.id == delete_task.id) {
-                                        statuses.tasks.splice(index, 1);
-                                    }
-                                });
-
-                                me.onTaskModalClose();
-                            } else {
-                                console.log(response.data.errors)
+                            if (statuses === undefined) {
+                                return;
                             }
-                        },
-                        (error) => {
-                            console.log(error)
+
+                            statuses.tasks.map((task, index) => {
+                                if (task.id == delete_task.id) {
+                                    statuses.tasks.splice(index, 1);
+                                }
+                            });
+
+                            me.onTaskModalClose();
+                        } else {
+                            console.log(response.data.errors)
                         }
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
                 )
 
             }
