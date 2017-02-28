@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\JsonEncodingException;
  */
 abstract class AbstractModel
 {
+    /**
+     * @param int $options
+     * @return string
+     */
     public function toJson($options = 0)
     {
         $json = json_encode($this->jsonSerialize(), $options);
@@ -23,6 +27,9 @@ abstract class AbstractModel
         return $json;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         $arr = [];
@@ -40,5 +47,34 @@ abstract class AbstractModel
         }
 
         return $arr;
+    }
+
+    /**
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     * @throws \Exception
+     */
+    function __call($method, $arguments)
+    {
+        if (preg_match('/^get(.+)$/', $method, $m) === 0) {
+            throw new \Exception('method not found');
+        }
+
+        $name = snake_case($m[1]);
+
+        $ref = new \ReflectionClass(static::class);
+
+        if (!$ref->hasProperty($name)) {
+            throw new \Exception('method not found');
+        }
+
+        $prop = $ref->getProperty($name);
+
+        if (!$prop->isPublic()) {
+            $prop->setAccessible(true);
+        }
+
+        return $prop->getValue($this);
     }
 }

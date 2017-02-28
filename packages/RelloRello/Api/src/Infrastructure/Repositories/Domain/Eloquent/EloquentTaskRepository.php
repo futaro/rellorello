@@ -2,7 +2,6 @@
 
 namespace RelloRello\Api\Infrastructure\Repositories\Domain\Eloquent;
 
-use League\Flysystem\Exception;
 use RelloRello\Api\Domain\Exceptions\NotFoundException;
 use RelloRello\Api\Domain\Models\Task;
 use RelloRello\Api\Domain\Repositories\TaskRepository;
@@ -32,10 +31,10 @@ class EloquentTaskRepository implements TaskRepository
 
     /**
      * @param int $id
-     * @return null|Task
+     * @return Task
      * @throws NotFoundException
      */
-    public function findOne($id)
+    public function findOne(int $id): Task
     {
         /** @var EloquentTask $task */
         $task = $this->eloquent->where('id', $id)
@@ -59,18 +58,6 @@ class EloquentTaskRepository implements TaskRepository
         $tasks = [];
         foreach ($collections as $task) {
             $tasks[] = $task->toDomain();
-        }
-
-        return $tasks;
-    }
-
-    public function findAsArray(array $p)
-    {
-        $collections = $this->_find($p);
-
-        $tasks = [];
-        foreach ($collections as $task) {
-            $tasks[] = $task->toArray();
         }
 
         return $tasks;
@@ -124,17 +111,29 @@ class EloquentTaskRepository implements TaskRepository
 
     /**
      * @param Task $task
-     * @return null|Task
+     * @return Task
      * @throws \Exception
      */
-    public function save(Task $task)
+    public function save(Task $task): Task
     {
-        $eloquent = new EloquentTask($task->toArray());
+        $eloquent = ($task->getId())
+            ? EloquentTask::find($task->getId())
+            : new EloquentTask();
+
+        $eloquent->fill($task->toArray());
 
         if ($eloquent->save()) {
             return $this->findOne($eloquent->id);
         } else {
             throw new \Exception('save failed');
         }
+    }
+
+    /**
+     * @param int $id
+     */
+    public function destroy(int $id)
+    {
+        EloquentTask::destroy($id);
     }
 }

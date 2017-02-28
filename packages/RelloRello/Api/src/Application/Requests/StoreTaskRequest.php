@@ -3,7 +3,7 @@
 namespace RelloRello\Api\Application\Requests;
 
 /**
- * Class AbstractStoreTaskRequest
+ * Class StoreTaskRequest
  *
  * @package RelloRello\Api\Application\Requests
  */
@@ -22,16 +22,6 @@ class StoreTaskRequest extends AbstractRequest
             'assignee_user_id' => 'numeric|nullable',
             'status_id' => 'required|numeric'
         ];
-    }
-
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
     }
 
     public function getSubject()

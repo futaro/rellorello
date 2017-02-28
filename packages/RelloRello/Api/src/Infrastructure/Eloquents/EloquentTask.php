@@ -3,7 +3,7 @@
 namespace RelloRello\Api\Infrastructure\Eloquents;
 
 use Carbon\Carbon;
-use RelloRello\Api\Domain\Models\Status;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use RelloRello\Api\Domain\Models\Task;
 
 /**
@@ -35,6 +35,9 @@ class EloquentTask extends AppEloquent implements Domainable
         'subject', 'description', 'created_user_id', 'assignee_user_id', 'status_id', 'order_num', 'created'
     ];
 
+    /**
+     * @return Task
+     */
     public function toDomain(): Task
     {
         return new Task(
@@ -49,7 +52,9 @@ class EloquentTask extends AppEloquent implements Domainable
         );
     }
 
-
+    /**
+     * @return HasOne
+     */
     public function status()
     {
         return $this->hasOne(EloquentStatus::class, 'id');

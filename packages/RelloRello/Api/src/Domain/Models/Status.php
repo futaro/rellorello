@@ -7,9 +7,10 @@ namespace RelloRello\Api\Domain\Models;
  *
  * @package RelloRello\Api\Domain\Models
  *
- * @property int project_id
- * @property string subject
- * @property int order_num
+ * @method int|null getId()
+ * @method int getProjectId()
+ * @method string getSubject()
+ * @method int getOrderNum()
  */
 class Status extends AbstractModel
 {
@@ -52,25 +53,5 @@ class Status extends AbstractModel
         $this->project_id = $project_id;
         $this->subject = $subject;
         $this->order_num = $order_num;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getProjectId()
-    {
-        return $this->project_id;
-    }
-
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
-    public function getOrderNum()
-    {
-        return $this->order_num;
     }
 }

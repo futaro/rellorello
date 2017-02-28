@@ -19,6 +19,11 @@ class FetchStatusesService implements FetchStatusesServiceInterface
      */
     private $statusRepository;
 
+    /**
+     * FetchStatusesService constructor.
+     *
+     * @param StatusRepository $statusRepository
+     */
     public function __construct(StatusRepository $statusRepository)
     {
         $this->statusRepository = $statusRepository;

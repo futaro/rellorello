@@ -3,6 +3,7 @@
 namespace RelloRello\Api\Application\Services;
 
 use RelloRello\Api\Application\Requests\StoreTaskRequest;
+use RelloRello\Api\Application\Requests\UpdateTaskRequest;
 use RelloRello\Api\Domain\Models\Task;
 
 /**
@@ -18,5 +19,15 @@ interface ManipulateTaskServiceInterface
      */
     public function store(StoreTaskRequest $request): Task;
 
-//    public function update(UpdateTaskRequest $request);
+    /**
+     * @param int $id
+     * @param UpdateTaskRequest $request
+     * @return Task
+     */
+    public function update(int $id, UpdateTaskRequest $request): Task;
+
+    /**
+     * @param int $id
+     */
+    public function destroy(int $id);
 }

@@ -38,6 +38,9 @@ class EloquentStatus extends AppEloquent implements Domainable
         return $this->hasMany(EloquentTask::class, 'status_id', 'id');
     }
 
+    /**
+     * @return Status
+     */
     public function toDomain(): Status
     {
         return new Status(

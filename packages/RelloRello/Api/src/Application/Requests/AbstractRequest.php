@@ -3,7 +3,7 @@
 namespace RelloRello\Api\Application\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class AbstractRequest
@@ -12,15 +12,32 @@ use Illuminate\Support\Facades\Response;
  */
 abstract class AbstractRequest extends FormRequest
 {
-    //エラー時の処理
+    /**
+     * エラー時の処理
+     *
+     * @param array $errors
+     * @return JsonResponse
+     */
     public function response(array $errors)
     {
-        $headers = [
-            'Access-Control-Allow-Origin' => ' *',
+        $response_data = [
+            "message" => $errors
         ];
 
-        $response["message"] = $errors;
+        $response = new JsonResponse();
+        return $response
+            ->setStatusCode(500)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->setData($response_data);
+    }
 
-        return Response::json($response, 500, $headers);
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
     }
 }

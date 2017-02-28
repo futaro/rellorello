@@ -4,6 +4,7 @@ namespace RelloRello\Api\Domain\Services;
 
 use Carbon\Carbon;
 use RelloRello\Api\Application\Requests\StoreTaskRequest;
+use RelloRello\Api\Application\Requests\UpdateTaskRequest;
 use RelloRello\Api\Application\Services\ManipulateTaskServiceInterface;
 use RelloRello\Api\Domain\Models\Task;
 use RelloRello\Api\Domain\Repositories\TaskRepository;
@@ -20,6 +21,11 @@ class ManipulateTaskService implements ManipulateTaskServiceInterface
      */
     private $taskRepository;
 
+    /**
+     * ManipulateTaskService constructor.
+     *
+     * @param TaskRepository $taskRepository
+     */
     public function __construct(TaskRepository $taskRepository)
     {
         $this->taskRepository = $taskRepository;
@@ -45,5 +51,44 @@ class ManipulateTaskService implements ManipulateTaskServiceInterface
         );
 
         return $this->taskRepository->save($task);
+    }
+
+    /**
+     * @param int $id
+     * @param UpdateTaskRequest $request
+     * @return Task
+     */
+    public function update(int $id, UpdateTaskRequest $request): Task
+    {
+        $org_task_arr = $this->taskRepository->findOne($id)
+                                             ->toArray();
+
+
+        $org_task_arr['subject'] = $request->getSubject();
+        $org_task_arr['description'] = $request->getDescription();
+        $org_task_arr['created_user_id'] = $request->getCreatedUserId();
+        $org_task_arr['assignee_user_id'] = $request->getAssigneeUserId();
+        $org_task_arr['status_id'] = $request->getStatusId();
+
+        $task = new Task(
+            $id,
+            $org_task_arr['subject'],
+            $org_task_arr['description'],
+            $org_task_arr['created_user_id'],
+            $org_task_arr['assignee_user_id'],
+            $org_task_arr['status_id'],
+            $org_task_arr['order_num'],
+            new Carbon($org_task_arr['created'])
+        );
+
+        return $this->taskRepository->save($task);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function destroy(int $id)
+    {
+        $this->taskRepository->destroy($id);
     }
 }

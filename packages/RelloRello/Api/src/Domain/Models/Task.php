@@ -8,6 +8,15 @@ use Carbon\Carbon;
  * Class Task
  *
  * @package RelloRello\Api\Domain\Models
+ *
+ * @method int|null getId()
+ * @method string getSubject()
+ * @method null|string getDescription()
+ * @method int getCreatedUserId()
+ * @method int|null getAssigneeUserId()
+ * @method int getStatusId()
+ * @method int getOrderNum()
+ * @method Carbon|null getCreated()
  */
 class Task extends AbstractModel
 {
@@ -82,45 +91,5 @@ class Task extends AbstractModel
         $this->status_id = $status_id;
         $this->order_num = $order_num;
         $this->created = $created ?? null;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function getCreatedUserId()
-    {
-        return $this->created_user_id;
-    }
-
-    public function getAssigneeUserId()
-    {
-        return $this->assignee_user_id;
-    }
-
-    public function getStatusId()
-    {
-        return $this->status_id;
-    }
-
-    public function getOrderNum()
-    {
-        return $this->order_num;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
     }
 }

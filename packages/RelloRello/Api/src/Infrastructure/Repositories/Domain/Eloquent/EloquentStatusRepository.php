@@ -6,10 +6,23 @@ use RelloRello\Api\Domain\Models\Status;
 use RelloRello\Api\Domain\Repositories\StatusRepository;
 use RelloRello\Api\Infrastructure\Eloquents\EloquentStatus;
 
+/**
+ * Class EloquentStatusRepository
+ *
+ * @package RelloRello\Api\Infrastructure\Repositories\Domain\Eloquent
+ */
 class EloquentStatusRepository implements StatusRepository
 {
+    /**
+     * @var EloquentStatus
+     */
     private $eloquent;
 
+    /**
+     * EloquentStatusRepository constructor.
+     *
+     * @param EloquentStatus $eloquent
+     */
     public function __construct(EloquentStatus $eloquent)
     {
         $this->eloquent = $eloquent;
@@ -31,6 +44,10 @@ class EloquentStatusRepository implements StatusRepository
         return $statuses;
     }
 
+    /**
+     * @param array $p
+     * @return array
+     */
     public function findAsArray(array $p)
     {
         $collections = $this->_find($p);

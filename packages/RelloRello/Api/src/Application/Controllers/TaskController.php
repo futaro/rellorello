@@ -2,13 +2,10 @@
 
 namespace RelloRello\Api\Application\Controllers;
 
-use RelloRello\Api\Application\Requests\FetchTasksRequest;
-use RelloRello\Api\Application\Requests\StoreTaskRequest;
+use Illuminate\Http\JsonResponse;
+use RelloRello\Api\Application\Requests;
 use RelloRello\Api\Application\Services\FetchTasksServiceInterface;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 use RelloRello\Api\Application\Services\ManipulateTaskServiceInterface;
 use RelloRello\Api\Domain\Models\Task;
 
@@ -20,67 +17,73 @@ use RelloRello\Api\Domain\Models\Task;
 class TaskController extends Controller
 {
     /**
-     * @param FetchTasksRequest $request
+     * @param Requests\FetchTasksRequest $request
+     * @param JsonResponse $response
      * @param FetchTasksServiceInterface $service
-     * @return mixed
+     * @return JsonResponse
      */
-    public function index(FetchTasksRequest $request, FetchTasksServiceInterface $service)
+    public function index(Requests\FetchTasksRequest $request, JsonResponse $response, FetchTasksServiceInterface $service)
     {
-        return Response::json($service->fetch($request));
+        $tasks = $service->fetch($request);
+
+        $tasks = array_map(function(Task $task){
+            return $task->toArray();
+        }, $tasks);
+
+        return $response->setData($tasks);
     }
 
-    public function show()
+    /**
+     * @todo いるかな
+     * @param int $id
+     * @param JsonResponse $response
+     */
+    public function show(int $id, JsonResponse $response)
     {
         //
     }
 
     /**
-     * @param StoreTaskRequest $request
-     *
+     * @param Requests\StoreTaskRequest $request
+     * @param JsonResponse $response
      * @param ManipulateTaskServiceInterface $service
-     * @return array
+     * @return JsonResponse
      */
-    public function store(StoreTaskRequest $request, ManipulateTaskServiceInterface $service)
+    public function store(Requests\StoreTaskRequest $request, JsonResponse $response, ManipulateTaskServiceInterface $service)
     {
-        $task = $service->store($request);
-
-        return Response::json(['status' => true, 'task' => $task->toArray()]);
+        return $response->setData([
+            'status' => true,
+            'task' => $service->store($request)
+                              ->toArray()
+        ]);
     }
 
-
-    public function update($id)
+    /**
+     * @param int $id
+     * @param Requests\UpdateTaskRequest $request
+     * @param JsonResponse $response
+     * @param ManipulateTaskServiceInterface $service
+     * @return JsonResponse
+     */
+    public function update(int $id, Requests\UpdateTaskRequest $request, JsonResponse $response, ManipulateTaskServiceInterface $service)
     {
-        // validate
-        // read more on validation at http://laravel.com/docs/validation
-        $rules = $this->getRules();
-
-        /** @var \Illuminate\Validation\Validator $validator */
-        $validator = Validator::make(Input::all(), $rules);
-
-        // process the login
-        if ($validator->fails()) {
-            return ['status' => false, 'errors' => $validator->messages()
-                                                             ->toArray()];
-        } else {
-
-            $task = Task::find($id);
-
-            if (!$task) {
-                return ['status' => false, 'errors' => 'Invalid id'];
-            }
-
-            $this->setRequestParams($task);
-            $task->save();
-
-            return ['status' => true, 'task' => $task];
-        }
+        return $response->setData([
+            'status' => true,
+            'task' => $service->update($id, $request)
+                              ->toArray()
+        ]);
     }
 
-    public function destroy($id)
+    /**
+     * @param int $id
+     * @param JsonResponse $response
+     * @param ManipulateTaskServiceInterface $service
+     * @return JsonResponse
+     */
+    public function destroy(int $id, JsonResponse $response, ManipulateTaskServiceInterface $service)
     {
-        Task::destroy($id);
-        return ['status' => true, 'id' => $id];
+        $service->destroy($id);
+
+        return $response->setData(['status' => true, 'id' => $id]);
     }
-
-
 }

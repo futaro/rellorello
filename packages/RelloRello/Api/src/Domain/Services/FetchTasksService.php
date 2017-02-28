@@ -19,6 +19,11 @@ class FetchTasksService implements FetchTasksServiceInterface
      */
     private $taskRepository;
 
+    /**
+     * FetchTasksService constructor.
+     *
+     * @param TaskRepository $taskRepository
+     */
     public function __construct(TaskRepository $taskRepository)
     {
         $this->taskRepository = $taskRepository;
@@ -26,7 +31,7 @@ class FetchTasksService implements FetchTasksServiceInterface
 
     /**
      * @param FetchTasksRequest $request
-     * @return Task[]|array
+     * @return Task[]
      * @throws \Exception
      */
     public function fetch(FetchTasksRequest $request): array
@@ -45,6 +50,6 @@ class FetchTasksService implements FetchTasksServiceInterface
             $params['limit'] = $limit;
         }
 
-        return $this->taskRepository->findAsArray($params);
+        return $this->taskRepository->find($params);
     }
 }
