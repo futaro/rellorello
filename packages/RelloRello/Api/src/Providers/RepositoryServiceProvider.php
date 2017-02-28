@@ -18,6 +18,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         Repositories\StatusRepository::class => Eloquent\EloquentStatusRepository::class,
         ServiceInterface\FetchStatusesServiceInterface::class => Services\FetchStatusesService::class,
+        ServiceInterface\ManipulateStatusServiceInterface::class => Services\ManipulateStatusService::class,
     ];
 
     /**

@@ -12,6 +12,12 @@ use RelloRello\Api\Domain\Models\Status;
 interface StatusRepository
 {
     /**
+     * @param int $id
+     * @return Status
+     */
+    public function findOne(int $id): Status;
+
+    /**
      * @param array $p
      * @return Status[]
      */
@@ -22,4 +28,21 @@ interface StatusRepository
      * @return mixed
      */
     public function findAsArray(array $p);
+
+    /**
+     * @param $project_id
+     * @return int
+     */
+    public function getMaxOrderNum(int $project_id): int;
+
+    /**
+     * @param Status $status
+     * @return Status
+     */
+    public function save(Status $status): Status;
+
+    /**
+     * @param int $id
+     */
+    public function destroy(int $id);
 }

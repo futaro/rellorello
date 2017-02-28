@@ -2,21 +2,26 @@
 
 namespace RelloRello\Api\Application\Controllers;
 
-use Illuminate\Support\Facades\Response;
-use RelloRello\Api\Application\Requests\FetchStatusesRequest;
-use RelloRello\Api\Application\Services\FetchStatusesServiceInterface;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use RelloRello\Api\Application\Requests;
+use RelloRello\Api\Application\Services;
 
+/**
+ * Class StatusController
+ * @package RelloRello\Api\Application\Controllers
+ */
 class StatusController extends Controller
 {
-    public function index(FetchStatusesRequest $request, FetchStatusesServiceInterface $service)
+    /**
+     * @param Requests\FetchStatusesRequest $request
+     * @param JsonResponse $response
+     * @param Services\FetchStatusesServiceInterface $service
+     * @return JsonResponse
+     */
+    public function index(Requests\FetchStatusesRequest $request, JsonResponse $response, Services\FetchStatusesServiceInterface $service)
     {
-        return Response::json($service->fetch($request));
-    }
-
-    public function store()
-    {
-        //
+        return $response->setData($service->fetch($request));
     }
 
     public function show($id)
@@ -24,13 +29,47 @@ class StatusController extends Controller
         //
     }
 
-    public function update($id)
+    /**
+     * @param Requests\StoreStatusRequest $request
+     * @param JsonResponse $response
+     * @param Services\ManipulateStatusServiceInterface $service
+     * @return JsonResponse
+     */
+    public function store(Requests\StoreStatusRequest $request, JsonResponse $response, Services\ManipulateStatusServiceInterface $service)
     {
-        //
+        return $response->setData([
+            'status' => true,
+            'model' => $service->store($request)
+                               ->toArray()
+        ]);
     }
 
-    public function destroy($id)
+    /**
+     * @param int $id
+     * @param Requests\UpdateStatusRequest $request
+     * @param JsonResponse $response
+     * @param Services\ManipulateStatusServiceInterface $service
+     * @return JsonResponse
+     */
+    public function update(int $id, Requests\UpdateStatusRequest $request, JsonResponse $response, Services\ManipulateStatusServiceInterface $service)
     {
-        //
+        return $response->setData([
+            'status' => true,
+            'model' => $service->update($id, $request)
+                               ->toArray()
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @param JsonResponse $response
+     * @param Services\ManipulateStatusServiceInterface $service
+     * @return JsonResponse
+     */
+    public function destroy(int $id, JsonResponse $response, Services\ManipulateStatusServiceInterface $service)
+    {
+        $service->destroy($id);
+
+        return $response->setData(['status' => true, 'id' => $id]);
     }
 }
