@@ -7,6 +7,7 @@ use RelloRello\Api\Application\Requests\UpdateStatusRequest;
 use RelloRello\Api\Application\Services\ManipulateStatusServiceInterface;
 use RelloRello\Api\Domain\Models\Status;
 use RelloRello\Api\Domain\Repositories\StatusRepository;
+use RelloRello\Api\Application\Requests\SortStatusesRequest;
 
 /**
  * Class ManipulateStatusService
@@ -77,5 +78,22 @@ class ManipulateStatusService implements ManipulateStatusServiceInterface
     public function destroy(int $id)
     {
         $this->statusRepository->destroy($id);
+    }
+
+
+    /**
+     * @param SortStatusesRequest $request
+     * @return bool
+     */
+    public function sort(SortStatusesRequest $request): bool
+    {
+        $statuses = $request->get('statuses');
+
+        $sort_statuses = [];
+        foreach ($statuses as $index => $status_id) {
+            $sort_statuses[$status_id] = $index + 1;
+        }
+
+        return $this->statusRepository->updateOrderNum($sort_statuses);
     }
 }

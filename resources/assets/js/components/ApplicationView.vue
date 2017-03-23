@@ -1,10 +1,16 @@
 <template>
     <div id="application">
         <div id="status-container">
-            <status v-for="status in statuses"
+            <status v-for="(status, index) in statuses"
                     v-bind:status="status"
+                    v-bind:status_index="index"
                     v-on:add-new-task="onAddNewTask"
                     v-on:task-modal-open="onTaskModalOpen"
+
+                    v-on:drag-replace-status="dragReplaceStatus"
+                    v-on:drag-start-status="dragStartStatus"
+                    v-on:drag-end-status="dragEndStatus"
+
                     v-on:update-status="onUpdateStatus"
                     v-on:delete-status="onDeleteStatus"
             >
@@ -41,7 +47,8 @@
             return {
                 statuses: [],
                 modal_open_flag: false,
-                task: {}
+                task: {},
+                drag_status_index: null
             }
         },
 
@@ -163,63 +170,96 @@
                 let me = this;
 
                 task.save(
-                    (response) => {
-                        if (response.data.status) {
+                        (response) => {
+                            if (response.data.status) {
 
-                            let statuses = me.statuses.find((status) => {
-                                return status.id == task.status_id;
-                            });
+                                let statuses = me.statuses.find((status) => {
+                                    return status.id == task.status_id;
+                                });
 
-                            if (statuses === undefined) {
-                                return;
-                            }
-
-                            statuses.tasks.map((item, index) => {
-                                if (item.id == response.data.task.id) {
-                                    statuses.tasks.splice(index, 1, new TaskModel(response.data.task));
+                                if (statuses === undefined) {
+                                    return;
                                 }
-                            });
 
-                            me.onTaskModalClose();
-                        } else {
-                            console.log(response.data.errors)
+                                statuses.tasks.map((item, index) => {
+                                    if (item.id == response.data.task.id) {
+                                        statuses.tasks.splice(index, 1, new TaskModel(response.data.task));
+                                    }
+                                });
+
+                                me.onTaskModalClose();
+                            } else {
+                                console.log(response.data.errors)
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
                         }
-                    },
-                    (error) => {
-                        console.log(error)
-                    }
                 )
             },
             onDeleteTask: function (delete_task) {
                 let me = this;
 
                 delete_task.destroy(
-                    (response) => {
-                        if (response.data.status) {
-                            let statuses = me.statuses.find((status) => {
-                                return status.id == delete_task.status_id;
-                            });
+                        (response) => {
+                            if (response.data.status) {
+                                let statuses = me.statuses.find((status) => {
+                                    return status.id == delete_task.status_id;
+                                });
 
-                            if (statuses === undefined) {
-                                return;
-                            }
-
-                            statuses.tasks.map((task, index) => {
-                                if (task.id == delete_task.id) {
-                                    statuses.tasks.splice(index, 1);
+                                if (statuses === undefined) {
+                                    return;
                                 }
-                            });
 
-                            me.onTaskModalClose();
-                        } else {
-                            console.log(response.data.errors)
+                                statuses.tasks.map((task, index) => {
+                                    if (task.id == delete_task.id) {
+                                        statuses.tasks.splice(index, 1);
+                                    }
+                                });
+
+                                me.onTaskModalClose();
+                            } else {
+                                console.log(response.data.errors)
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
                         }
-                    },
-                    (error) => {
-                        console.log(error)
-                    }
                 )
 
+            },
+            dragStartStatus: function (index) {
+                this.drag_status_index = index;
+            },
+            dragEndStatus: function () {
+                let model = new StatusModel;
+
+                let statuses = this.statuses.map((status) => {
+                    return status.id;
+                });
+
+
+                model.sort(statuses,
+                        (response) => {
+
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                );
+
+            },
+            dragReplaceStatus: function (index) {
+                if (this.drag_status_index != index) {
+
+                    let drag_status = this.statuses[this.drag_status_index];
+                    let replace_status = this.statuses[index];
+
+                    this.statuses.splice(this.drag_status_index, 1, replace_status);
+                    this.statuses.splice(index, 1, drag_status);
+
+                    this.drag_status_index = index;
+                }
             }
         },
 

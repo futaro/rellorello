@@ -75,5 +75,14 @@ export default class StatusModel extends AbstractModel {
     get tasks() {
         return this._get('tasks')
     }
+
+    sort(statuses, success, failed) {
+        let api_url = `/api${this.resource_url}/sort`;
+
+        axios
+            .post(api_url, {statuses: statuses})
+            .then(success)
+            .catch(failed)
+    }
 }
 

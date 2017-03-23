@@ -4,6 +4,7 @@ namespace RelloRello\Api\Application\Services;
 
 use RelloRello\Api\Application\Requests\StoreStatusRequest;
 use RelloRello\Api\Application\Requests\UpdateStatusRequest;
+use RelloRello\Api\Application\Requests\SortStatusesRequest;
 use RelloRello\Api\Domain\Models\Status;
 
 /**
@@ -30,4 +31,10 @@ interface ManipulateStatusServiceInterface
      * @param int $id
      */
     public function destroy(int $id);
+
+    /**
+     * @param SortStatusesRequest $request
+     * @return bool
+     */
+    public function sort(SortStatusesRequest $request): bool;
 }

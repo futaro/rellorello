@@ -72,4 +72,18 @@ class StatusController extends Controller
 
         return $response->setData(['status' => true, 'id' => $id]);
     }
+
+    /**
+     * @param Requests\SortStatusesRequest $request
+     * @param JsonResponse $response
+     * @param Services\ManipulateStatusServiceInterface $service
+     * @return $this
+     */
+    public function sort(Requests\SortStatusesRequest $request, JsonResponse $response, Services\ManipulateStatusServiceInterface $service)
+    {
+        return $response->setData([
+                'status' => $service->sort($request)
+            ]
+        );
+    }
 }

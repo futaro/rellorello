@@ -150,4 +150,18 @@ class EloquentStatusRepository implements StatusRepository
     {
         EloquentStatus::destroy($id);
     }
+
+    /**
+     * @param array $sort_statuses
+     * @return bool
+     */
+    public function updateOrderNum(array $sort_statuses): bool
+    {
+        foreach ($sort_statuses as $id => $order_num ) {
+            EloquentStatus::where('id', $id)
+                ->update(['order_num' => $order_num]);
+        }
+
+        return true;
+    }
 }

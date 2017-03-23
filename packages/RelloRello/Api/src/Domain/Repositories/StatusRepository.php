@@ -45,4 +45,10 @@ interface StatusRepository
      * @param int $id
      */
     public function destroy(int $id);
+
+    /**
+     * @param array $sort_statuses
+     * @return bool
+     */
+    public function updateOrderNum(array $sort_statuses): bool;
 }

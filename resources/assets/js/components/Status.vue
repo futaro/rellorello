@@ -1,5 +1,10 @@
 <template>
-    <div class="status" draggable="true">
+    <div class="status"
+         draggable="true"
+         @dragstart="onDragStart(status_index, $event)"
+         @dragend="onDragEnd"
+         @dragenter="onDragEnter(status_index)"
+    >
         <div
                 v-show="!editStatusSubject"
                 v-on:click="onEditSubject(status)"
@@ -53,7 +58,9 @@
         },
 
         props: {
-            status: null
+            status: null,
+            status_index: null,
+            drag_status_index: null
         },
 
         components: {
@@ -62,6 +69,7 @@
         },
 
         methods: {
+
             onAddNewTask: function (obj) {
                 this.$emit('add-new-task', obj)
             },
@@ -93,9 +101,19 @@
                 } else if (e.code == 'Escape') {
                     this.onClickCancel()
                 }
+            },
+            onDragStart: function (status_index, e) {
+                e.target.style.opacity = 0.5;
+                this.$emit('drag-start-status', status_index);
+            },
+            onDragEnd: function (e) {
+                this.$emit('drag-end-status');
+                e.target.style.opacity = 1;
+            },
+            onDragEnter: function (status_index) {
+                this.$emit('drag-replace-status', status_index);
             }
         }
-
     }
 
 </script>

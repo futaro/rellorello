@@ -42,6 +42,8 @@ class FetchStatusesService implements FetchStatusesServiceInterface
             $params['where']['project_id'] = $project_id;
         }
 
+        $params['orderBy'] = ['order_num', 'ASC'];
+
         return $this->statusRepository->findAsArray($params);
     }
 }
