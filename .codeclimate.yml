@@ -1,0 +1,11 @@
+languages:
+  PHP: true
+exclude_paths:
+- "tests/"
+- "storage/"
+- "routes/"
+- "resources/"
+- "public/"
+- "database/"
+- "config/"
+- "bootstrap/"
